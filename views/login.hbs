@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Adapt authoring tool</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/prototype.css">
+</head>
+<body>
+<div id="app">
+    <div id="popup" class="hidden">
+        <input type="text" name="" value="">
+    </div>
+    <a class="back" href="/prototype"><i class="fas fa-home"></i></a>
+    <img class="logo" src="https://www.adaptlearning.org/wp-content/uploads/2015/11/home-hero-logo.png">
+    <div class="inner">
+        <h1>Login</h1>
+        <div class="login-form">
+            <div class="attribute"><input type="text" name="email" placeholder="Email address"></div>
+            <div class="attribute"><input type="password" name="password" placeholder="Password"></div>
+            <div class="attribute button" style="width:5%;"><i class="fas fa-sign-in-alt"></i></div>
+        </div>
+
+
+        <p>The auth module exposes the following endpoints:</p>
+        <div class="endpoint">
+            <span class="method">GET</span> <span class="route">api/auth/login/</span>
+            <p>Login page.</p>
+        </div>
+        <div class="endpoint">
+            <span class="method">POST</span> <span class="route">api/auth/login/</span>
+            <p>Attempts login with local passport. Expects an object with an <span class="code">email</span> and <span class="code">password</span>.</p>
+        </div>
+    </div>
+</div>
+</body>
+<style media="screen">
+    #app {
+        width: 80%;
+    }
+    #app .inner {
+        text-align: left;
+    }
+    #popup {
+        position: absolute;
+        color: black;
+    }
+    #popup.hidden {
+        display: none;
+    }
+    #popup input {
+        width: 100%;
+        border: none;
+        background: #00dd95;
+        color: white;
+        outline: none;
+        padding: 5px;
+        font-size: 20px;
+        font-weight: inherit;
+        font-family: inherit;
+    }
+    .login-form {
+        width: 45%;
+        margin: auto;
+        padding: 25px;
+        background: rgba(255,255,255,0.25);
+        border: 1px solid rgba(255,255,255,0.25);
+        border-radius: 3px;
+        margin-bottom: 25px;
+    }
+    .login-form .attribute {
+        padding: 0;
+        background: none;
+        border-color: rgba(255,255,255,0.5);
+    }
+    .login-form .attribute input {
+        padding: 5px;
+        width: 100%;
+        background: none;
+        border: none;
+        outline: none;
+        font-size: inherit;
+        font-family: inherit;
+        font-weight: inherit;
+        color: white;
+    }
+    .login-form .attribute input::-webkit-input-placeholder { color: rgba(255,255,255,0.6); }
+    .login-form .attribute input::placeholder { color: rgba(255,255,255,0.6); }
+
+    .login-form .attribute.button {
+        margin: auto;
+        cursor: pointer;
+    }
+    .login-form .attribute.button:hover {
+        color: #00dd95;
+    }
+    h1 {
+        text-align: center;
+    }
+    span.code {
+        font-family: monospace;
+    }
+    .endpoint {
+        margin-bottom: 10px;
+        font-size: 85%;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.25);
+        padding: 10px;
+    }
+    .endpoint .method {
+        display: inline-block;
+        font-family: monospace;
+        background: #00dd95;
+        border-radius: 3px;
+        padding: 1px 5px;
+        margin-right: 5px;
+    }
+    .endpoint .route {
+        font-family: monospace;
+        font-weight: 200;
+    }
+    .endpoint p {
+        margin: 0;
+        margin-top: 7px;
+    }
+</style>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+<script type="text/javascript">
+    $('.login-form .button').click(function(e) {
+        e.preventDefault();
+        $.post('/api/auth/login', {
+            email: $('.login-form input[name="email"]').val(),
+            password: $('.login-form input[name="password"]').val()
+        }).done(refresh).fail(alertError);
+    });
+
+    function refresh() {
+        window.location = window.location;
+    }
+
+    function alertError(data) {
+        var code = data.responseJSON.statusCode;
+        var error = data.responseJSON.error;
+        alert(code + " error\n" + error);
+    }
+</script>
+</html>
