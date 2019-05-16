@@ -131,11 +131,11 @@
         $.post('/api/auth/login', {
             email: $('.login-form input[name="email"]').val(),
             password: $('.login-form input[name="password"]').val()
-        }).done(refresh).fail(alertError);
+        }).done(goToHelloWorld).fail(alertError);
     });
 
-    function refresh() {
-        window.location = window.location;
+    function goToHelloWorld() {
+        window.location.replace(window.location.origin + '/helloworld');
     }
 
     function alertError(data) {
