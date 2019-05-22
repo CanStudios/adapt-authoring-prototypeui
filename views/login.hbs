@@ -131,12 +131,11 @@
         $.post('/api/auth/login', {
             email: $('.login-form input[name="email"]').val(),
             password: $('.login-form input[name="password"]').val()
-        }).done(goToHelloWorld).fail(alertError);
+        }).done(function(data) {
+            window.localStorage.setItem('token', data.token);
+            window.location.replace(window.location.origin + '/helloworld');
+        }).fail(alertError);
     });
-
-    function goToHelloWorld() {
-        window.location.replace(window.location.origin + '/helloworld');
-    }
 
     function alertError(data) {
         var code = data.responseJSON.statusCode;

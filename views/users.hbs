@@ -209,7 +209,7 @@
       if($btn.closest('.user').hasClass('new')) {
         return;
       }
-      $.ajax('/api/users/' + $btn.closest('.user').attr('data-id'), { method: 'DELETE' })
+      $.ajax('/api/users/' + $btn.closest('.user').attr('data-id'), { method: 'DELETE', headers: { Authorization: localStorage.getItem('token')} })
         .done(refresh)
         .fail(alertError);
     });
